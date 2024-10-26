@@ -62,6 +62,22 @@ flutter:
     - assets/logo.png  # 로고 이미지 경로 추가
     - assets/google.png # 깃허브 이미지 경로 추가
     - assets/github.png # 구글 이미지 경로 추가
+    - assets/profile.png
+    - assets/main.png
+    - assets/test.png
+    - assets/main2.png
+    - assets/main3.png
+    - assets/main5.png
+    - assets/main6.png
+    - assets/tech_stack/Amazonwebservices.png
+    - assets/tech_stack/AndroidStudio.png
+    - assets/tech_stack/Angular.png
+    - assets/tech_stack/Babel.png
+    - assets/tech_stack/Bootstrap.png
+    - assets/tech_stack/C#.png
+    - assets/tech_stack/C.png
+    - assets/tech_stack/C++.png
+    - assets/tech_stack/Codepen.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

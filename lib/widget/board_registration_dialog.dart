@@ -15,7 +15,6 @@ class _BoardRegistrationPageState extends State<BoardRegistrationPage> {
   String date = '';
   String content = '';
   String tags = '';
-  String? selectedGroup; // 선택된 그룹
   List<Map<String, dynamic>> roles = [{'role': '', 'count': 1}]; // 역할과 인원 수
 
   Future<void> _selectDate(BuildContext context) async {
@@ -81,30 +80,6 @@ class _BoardRegistrationPageState extends State<BoardRegistrationPage> {
               ),
               const SizedBox(height: 20),
 
-              // 드롭다운 메뉴
-              DropdownButton<String>(
-                value: selectedGroup,
-                hint: const Text('그룹 선택', style: TextStyle(color: Colors.white)),
-                dropdownColor: const Color(0xFF2D2A2A),
-                style: const TextStyle(color: Colors.white, fontSize: 18),
-                items: <String>['사이드 프로젝트', '스터디 그룹']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value, style: const TextStyle(fontSize: 18, color: Colors.white)),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedGroup = newValue;
-                    roles = [{'role': '', 'count': 1}]; // 그룹 변경 시 역할 초기화
-                  });
-                },
-                isExpanded: true,
-                icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-              ),
-              const SizedBox(height: 83),
-
               // 제목 입력 필드
               CustomTextField(
                 label: '제목',
@@ -152,98 +127,23 @@ class _BoardRegistrationPageState extends State<BoardRegistrationPage> {
                 '태그는 콤마로 구분하여 입력해주세요.',
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
-              const SizedBox(height: 20),
-
-              // 역할 추가 필드 (사이드 프로젝트일 때만 표시)
-// 역할 추가 필드 (사이드 프로젝트일 때만 표시)
-              if (selectedGroup == '사이드 프로젝트') ...[
-                const Text(
-                  '역할 및 인원 수를 입력하세요.',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                const SizedBox(height: 20),
-                ...roles.map((role) {
-                  int index = roles.indexOf(role);
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButton<String>(
-                          value: roles[index]['role'].isEmpty ? null : roles[index]['role'],
-                          hint: const Text(
-                            '역할 선택',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          dropdownColor: const Color(0xFF2D2A2A),
-                          style: const TextStyle(color: Colors.white, fontSize: 18),
-                          items: ['백엔드', '프론트엔드', '기획', '디자인', '기타']
-                              .map<DropdownMenuItem<String>>((String roleOption) {
-                            return DropdownMenuItem<String>(
-                              value: roleOption,
-                              child: Text(roleOption, style: const TextStyle(fontSize: 18, color: Colors.white)),
-                            );
-                          }).toList(),
-                          onChanged: (String? newRole) {
-                            setState(() {
-                              roles[index]['role'] = newRole ?? '';
-                            });
-                          },
-                          isExpanded: true,
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.remove, color: Colors.red),
-                            onPressed: () => _decreaseCount(index),
-                          ),
-                          Text(
-                            roles[index]['count'].toString(),
-                            style: const TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add, color: Colors.green),
-                            onPressed: () => _increaseCount(index),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.remove_circle, color: Colors.red),
-                        onPressed: () => _removeRole(index),
-                      ),
-                    ],
-                  );
-                }).toList(),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _addRole,
-                  child: const Text('역할 추가', style: TextStyle(fontWeight: FontWeight.bold)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3C63EA),
-                  ),
-                ),
-                const SizedBox(height: 20),
-              ],
-
 
               // 등록 버튼
-// 등록 버튼 클릭 이벤트
               Align(
                 alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (title.isEmpty || date.isEmpty || content.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('모든 필드를 입력하세요.')),
-                      );
-                      return;
-                    }
+                child: Container(
+                  color: Colors.black, // 배경 색상 설정
+                  margin: const EdgeInsets.only(top: 160), // 위쪽 여백 추가 (원하는 경우)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (title.isEmpty || date.isEmpty || content.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('모든 필드를 입력하세요.')),
+                        );
+                        return;
+                      }
 
-                    try {
-                      if (selectedGroup == '스터디 그룹') {
-                        widget.onRegister(title, date, content, tags, []); // 빈 역할 목록 전달
-                      } else if (selectedGroup == '사이드 프로젝트') {
+                      try {
                         // 역할이 선택되지 않은 경우 체크
                         for (var role in roles) {
                           if (role['role'].isEmpty || role['count'] < 1) {
@@ -254,28 +154,25 @@ class _BoardRegistrationPageState extends State<BoardRegistrationPage> {
                           }
                         }
                         widget.onRegister(title, date, content, tags, roles); // 역할 목록 전달
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('그룹을 선택하세요.')),
-                        );
-                        return;
-                      }
 
-                      // 등록 후 페이지 닫기
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('등록 중 오류가 발생했습니다: $e')),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3C63EA),
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        // 등록 후 페이지 닫기
+                        Navigator.of(context).pop();
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('등록 중 오류가 발생했습니다: $e')),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3C63EA),
+                      fixedSize: const Size(double.infinity, 40), // 버튼의 너비를 전체 너비로 설정, 높이를 40으로 설정
+                      padding: const EdgeInsets.all(0), // 패딩을 0으로 설정하여 크기 축소
+                    ),
+                    child: const Text('등록', style: TextStyle(fontSize: 14, color: Colors.white)), // 글자 크기 조정
                   ),
-                  child: const Text('등록', style: TextStyle(fontSize: 18, color: Colors.white)),
                 ),
               ),
+
 
 
             ],
