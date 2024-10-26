@@ -1,8 +1,9 @@
 import 'package:afterburner/screen/mainpage.dart';
 import 'package:afterburner/screen/question_board.dart';
 import 'package:flutter/material.dart';
-import 'package:afterburner/screen/free_board_screen.dart';
-import 'package:afterburner/screen/login_screen.dart';
+import 'package:afterburner/screen/free_board.dart';
+import 'package:afterburner/screen/login.dart';
+import 'package:afterburner/screen/my_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key}) : super(key: key);
@@ -44,17 +45,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // 로고 이미지를 추가
               Image.asset(
-                'assets/logo.png', // 로고 이미지 경로
-                height: 40, // 이미지 높이 조정
+                'assets/logo.png',
+                height: 40,
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MainPage(), // MainPage로 이동
+                      builder: (context) => MainPage(),
                     ),
                   );
                 },
@@ -73,11 +73,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // 자유게시판 페이지로 이동
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FreeBoardScreen(), // 자유게시판 화면
+                      builder: (context) => FreeBoardScreen(),
                     ),
                   );
                 },
@@ -85,15 +84,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // 로그인 페이지로 이동
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LoginScreen(), // 로그인 화면
+                      builder: (context) => LoginScreen(),
                     ),
                   );
                 },
                 child: const Text('로그인', style: TextStyle(color: Colors.white)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyPageScreen(), // 마이페이지로 이동
+                    ),
+                  );
+                },
+                child: const Text('마이페이지', style: TextStyle(color: Colors.white)), // 마이페이지 텍스트 추가
               ),
             ],
           ),
