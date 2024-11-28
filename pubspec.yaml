@@ -78,6 +78,7 @@ flutter:
     - assets/tech_stack/C.png
     - assets/tech_stack/C++.png
     - assets/tech_stack/Codepen.png
+    - assets/pattern.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

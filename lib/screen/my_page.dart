@@ -43,7 +43,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Padding(

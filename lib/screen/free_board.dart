@@ -34,7 +34,6 @@
     @override
     Widget build(BuildContext context) {
       return Scaffold(
-        appBar: CustomAppBar(),
         backgroundColor: Colors.black, // 배경 색상 검은색으로 수정
         body: Stack(
           children: [

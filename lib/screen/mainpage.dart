@@ -68,7 +68,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
       body: Container(
         color: Colors.black,
         child: Column(

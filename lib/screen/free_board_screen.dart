@@ -35,7 +35,6 @@ class _FreeBoardScreenState extends State<FreeBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
       body: Stack(
         children: [
           ListView.builder(
