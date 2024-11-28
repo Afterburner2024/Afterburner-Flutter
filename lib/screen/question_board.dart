@@ -1,139 +1,207 @@
-import 'package:afterburner/screen/mainpage.dart';
-import 'package:afterburner/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:afterburner/widget/board_card.dart';
 
 // 질문 모델
 class Question {
   final String title;
   final String content;
-  final String author;
+  final String date;
+  final String tags;
 
-  Question({required this.title, required this.content, required this.author});
+  Question({
+    required this.title,
+    required this.content,
+    required this.date,
+    required this.tags,
+  });
 }
 
-// 질문 상세 화면
-class QuestionDetailScreen extends StatelessWidget {
-  final Question question;
+// 질문 게시판 메인 화면
+class QuestionBoardScreen extends StatefulWidget {
+  const QuestionBoardScreen({Key? key}) : super(key: key);
 
-  const QuestionDetailScreen({Key? key, required this.question}) : super(key: key);
+  @override
+  _QuestionBoardScreenState createState() => _QuestionBoardScreenState();
+}
+
+class _QuestionBoardScreenState extends State<QuestionBoardScreen> {
+  final List<Question> questions = [
+    Question(
+      title: 'spring boot 로그인 질문!',
+      content: '제목과 관련된 내용.',
+      date: '2024-10-08',
+      tags: '#백엔드 #로그인',
+    ),
+    Question(
+      title: '(욕설 제목)',
+      content: '욕설 내용.',
+      date: '2024-10-08',
+      tags: '#관리자',
+    ),
+    Question(
+      title: 'JAVA랑 script랑 뭐가 다른가요?',
+      content: '제목과 관련된 내용.',
+      date: '2024-10-08',
+      tags: '#프로그래밍 #초보',
+    ),
+  ];
+
+  // 선택된 필터를 관리하는 변수
+  String? selectedFilter;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(question.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('작성자: ${question.author}', style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            Text(question.content),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// 질문 게시판 카테고리 선택 화면
-class QuestionBoardScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(), // CustomAppBar 사용
       backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 20),
-            Text(
-              '업무 분야에 맞게 질문해보세요!!',
-              style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: 'Roboto'), // 폰트 적용
-            ),
-            SizedBox(height: 20),
-            // 첫 번째 행
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CategoryButton(label: 'Backend', icon: Icons.developer_board), // 영어로 변경
-                CategoryButton(label: 'Frontend', icon: Icons.web), // 영어로 변경
-              ],
-            ),
-            // 두 번째 행
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CategoryButton(label: 'Publishing', icon: Icons.publish), // 영어로 변경
-                CategoryButton(label: 'Planning', icon: Icons.assignment), // 영어로 변경
-              ],
-            ),
-            // 세 번째 행 (모바일 카테고리)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CategoryButton(label: 'Mobile', icon: Icons.mobile_friendly), // 영어로 변경
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// 카테고리 버튼 위젯
-class CategoryButton extends StatelessWidget {
-  final String label;
-  final IconData icon;
-
-  const CategoryButton({Key? key, required this.label, required this.icon}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      margin: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black54,
-            blurRadius: 10,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () {
-            // 버튼 클릭 시 동작
-            print('$label button clicked');
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 16),
+          // 상단 카테고리 버튼
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(icon, color: Colors.white, size: 24),
-                SizedBox(width: 8),
-                Text(
-                  label,
-                  style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: 'Roboto'), // 폰트 적용
+                FilterButton(
+                  label: '백엔드',
+                  isSelected: selectedFilter == '백엔드',
+                  onTap: () {
+                    setState(() {
+                      selectedFilter = '백엔드';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: '프론트엔드',
+                  isSelected: selectedFilter == '프론트엔드',
+                  onTap: () {
+                    setState(() {
+                      selectedFilter = '프론트엔드';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: '모바일',
+                  isSelected: selectedFilter == '모바일',
+                  onTap: () {
+                    setState(() {
+                      selectedFilter = '모바일';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: '기획',
+                  isSelected: selectedFilter == '기획',
+                  onTap: () {
+                    setState(() {
+                      selectedFilter = '기획';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: '퍼블리싱',
+                  isSelected: selectedFilter == '퍼블리싱',
+                  onTap: () {
+                    setState(() {
+                      selectedFilter = '퍼블리싱';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: '데이터베이스',
+                  isSelected: selectedFilter == '데이터베이스',
+                  onTap: () {
+                    setState(() {
+                      selectedFilter = '데이터베이스';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: 'DevOps',
+                  isSelected: selectedFilter == 'DevOps',
+                  onTap: () {
+                    setState(() {
+                      selectedFilter = 'DevOps';
+                    });
+                  },
                 ),
               ],
             ),
           ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: questions.length,
+              itemBuilder: (context, index) {
+                final question = questions[index];
+                return BoardCard(
+                  title: question.title,
+                  date: question.date,
+                  content: question.content,
+                  tags: question.tags,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey[900],
+        onPressed: () {
+          // 질문 추가 동작
+        },
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+    );
+  }
+}
+
+// 필터 버튼 위젯
+class FilterButton extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const FilterButton({
+    Key? key,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(color: isSelected ? Colors.white : Colors.grey),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          backgroundColor: isSelected ? Colors.grey : Colors.transparent,
+        ),
+        onPressed: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+          ),
         ),
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: const QuestionBoardScreen(),
+  ));
 }
