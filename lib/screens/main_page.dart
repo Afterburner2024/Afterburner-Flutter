@@ -41,7 +41,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.mainBackground,
+      backgroundColor: AppTheme.sidebarBackground,
       body: SafeArea(
         child: Stack(
           children: [
@@ -72,7 +72,17 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   child: child!,
                 );
               },
-              child: CustomSidebar(onClose: _toggleDrawer),
+              child: CustomSidebar(
+                onClose: _toggleDrawer,
+                onNavigate: (route) {
+                  if (ModalRoute.of(context)?.settings.name != route) {
+                    Navigator.of(context).pushReplacementNamed(route);
+                  }
+                  // 사이드바 닫기까지 원하면 아래처럼:
+                  _toggleDrawer();
+                },
+                currentRoute: ModalRoute.of(context)?.settings.name ?? '/',
+              ),
             ),
             if (isOpen)
               GestureDetector(

@@ -5,10 +5,13 @@ class SidebarItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final bool selected;
+  final VoidCallback onTap; // ← 추가
+
   const SidebarItem({
     super.key,
     required this.icon,
     required this.text,
+    required this.onTap, // ← 추가
     this.selected = false,
   });
 
@@ -16,16 +19,10 @@ class SidebarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
-      decoration: selected
-          ? BoxDecoration(
-        color: AppTheme.sidebarSelected,
-        borderRadius: BorderRadius.circular(12),
-      )
-          : null,
       child: ListTile(
         leading: Icon(
           icon,
-          color: selected ? AppTheme.sidebarIcon : AppTheme.sidebarIconUnselected, // ⭐️
+          color: selected ? AppTheme.sidebarIcon : AppTheme.sidebarIconUnselected,
         ),
         title: Text(
           text,
@@ -36,7 +33,7 @@ class SidebarItem extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        onTap: () {},
+        onTap: onTap, // ← 수정
         contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
         horizontalTitleGap: 12,
       ),

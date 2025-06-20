@@ -17,7 +17,7 @@ class MainContent extends StatelessWidget {
               children: [
                 Expanded(child: Container()),
                 IconButton(
-                  icon: Icon(Icons.menu, size: 32, color: AppTheme.mainText), // ⭐️
+                  icon: Icon(Icons.menu, size: 32, color: AppTheme.mainText),
                   onPressed: onMenuTap,
                 ),
                 const SizedBox(width: 8),

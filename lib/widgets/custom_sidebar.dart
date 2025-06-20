@@ -4,7 +4,15 @@ import '../theme/app_theme.dart';
 
 class CustomSidebar extends StatelessWidget {
   final VoidCallback onClose;
-  const CustomSidebar({super.key, required this.onClose});
+  final void Function(String route) onNavigate;
+  final String currentRoute;
+
+  const CustomSidebar({
+    super.key,
+    required this.onClose,
+    required this.onNavigate,
+    required this.currentRoute,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +42,8 @@ class CustomSidebar extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Text("Abu Anwar", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                      Text("YouTuber", style: TextStyle(color: Colors.white60, fontSize: 12)),
+                      Text("닉네임", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      Text("역할/설명", style: TextStyle(color: Colors.white60, fontSize: 12)),
                     ],
                   ),
                 ),
@@ -46,19 +54,36 @@ class CustomSidebar extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 36),
-            const Text("BROWSE", style: TextStyle(color: Colors.white54, letterSpacing: 1.0, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            const SidebarItem(icon: Icons.home, text: "Home"),
-            const SidebarItem(icon: Icons.search, text: "Search"),
-            const SidebarItem(icon: Icons.star, text: "Favorites"),
-            const SidebarItem(icon: Icons.help_outline, text: "Help"),
-            const SizedBox(height: 22),
-            const Divider(color: Colors.white24, height: 1, thickness: 1, endIndent: 10),
-            const SizedBox(height: 18),
-            const Text("HISTORY", style: TextStyle(color: Colors.white54, letterSpacing: 1.0, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            const SidebarItem(icon: Icons.history, text: "History"),
-            const SidebarItem(icon: Icons.notifications_none, text: "Notification", selected: true),
+            SidebarItem(
+              icon: Icons.home,
+              text: "홈",
+              selected: currentRoute == '/',
+              onTap: () => onNavigate('/'),
+            ),
+            SidebarItem(
+              icon: Icons.school,
+              text: "스터디",
+              selected: currentRoute == '/study',
+              onTap: () => onNavigate('/study'),
+            ),
+            SidebarItem(
+              icon: Icons.lightbulb_outline,
+              text: "사이드프로젝트",
+              selected: currentRoute == '/sideproject',
+              onTap: () => onNavigate('/sideproject'),
+            ),
+            SidebarItem(
+              icon: Icons.forum,
+              text: "질문게시판",
+              selected: currentRoute == '/qna',
+              onTap: () => onNavigate('/qna'),
+            ),
+            SidebarItem(
+              icon: Icons.login,
+              text: "로그인",
+              selected: currentRoute == '/login',
+              onTap: () => onNavigate('/login'),
+            ),
             const Expanded(child: SizedBox()),
           ],
         ),
