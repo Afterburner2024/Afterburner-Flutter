@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class CustomDropdownButton extends StatefulWidget {
   final String value;
@@ -12,9 +13,9 @@ class CustomDropdownButton extends StatefulWidget {
     required this.value,
     required this.items,
     required this.onChanged,
-    this.backgroundColor = const Color(0xFF23252D),
-    this.textColor = const Color(0xFFF1F5F9),
-    this.activeColor = const Color(0xFF3B82F6),
+    this.backgroundColor = kCard,
+    this.textColor = kPrimary,
+    this.activeColor = kAccent,
     super.key,
   });
 
@@ -59,16 +60,16 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     color: Colors.transparent,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[900]?.withOpacity(0.98),
-                        borderRadius: BorderRadius.circular(14),
+                        color: kCard,
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.4),
+                            color: kGray.withOpacity(0.13),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
                         ],
-                        border: Border.all(color: Colors.white12),
+                        border: Border.all(color: kGray),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -76,7 +77,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                         children: widget.items.map((item) {
                           final isSelected = item == widget.value;
                           return InkWell(
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(16),
                             onTap: () {
                               widget.onChanged(item);
                               _removeDropdown();
@@ -86,14 +87,16 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                                   vertical: 16, horizontal: 20),
                               decoration: isSelected
                                   ? BoxDecoration(
-                                color: Colors.white12,
-                                borderRadius: BorderRadius.circular(14),
+                                color: widget.activeColor.withOpacity(0.09),
+                                borderRadius: BorderRadius.circular(16),
                               )
                                   : null,
                               child: Text(
                                 item,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: isSelected
+                                      ? widget.activeColor
+                                      : widget.textColor,
                                   fontSize: 16,
                                   fontWeight: isSelected
                                       ? FontWeight.bold
@@ -139,42 +142,42 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       link: _layerLink,
       child: GestureDetector(
         onTap: _toggleDropdown,
-        child: Container(
-          height: 56,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          height: 52,
           decoration: BoxDecoration(
-            color: Colors.white12,
+            color: widget.backgroundColor,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: _isOpen ? Colors.white : Colors.white24,
+              color: _isOpen ? widget.activeColor : kGray,
               width: _isOpen ? 2 : 1,
             ),
             boxShadow: _isOpen
                 ? [
               BoxShadow(
-                  color: Colors.white12,
-                  blurRadius: 8,
-                  offset: Offset(0, 2))
+                  color: widget.activeColor.withOpacity(0.08),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2))
             ]
                 : [],
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 widget.value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                style: TextStyle(
+                  color: widget.textColor,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(width: 12),
               Icon(
                 _isOpen
                     ? Icons.keyboard_arrow_up
                     : Icons.keyboard_arrow_down,
-                color: Colors.white70,
+                color: kPrimary,
                 size: 28,
               ),
             ],

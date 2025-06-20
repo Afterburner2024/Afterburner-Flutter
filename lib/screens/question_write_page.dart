@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class QuestionWritePage extends StatefulWidget {
   final String category;
@@ -16,7 +17,20 @@ class _QuestionWritePageState extends State<QuestionWritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('${widget.category} 질문 작성')),
+      backgroundColor: kBackground,
+      appBar: AppBar(
+        title: Text(
+          '${widget.category} 질문 작성',
+          style: const TextStyle(
+            color: kPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: kBackground,
+        centerTitle: true,
+        elevation: 1.5,
+        iconTheme: const IconThemeData(color: kPrimary),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -29,8 +43,7 @@ class _QuestionWritePageState extends State<QuestionWritePage> {
                   border: OutlineInputBorder(),
                 ),
                 onSaved: (v) => title = v ?? '',
-                validator: (v) =>
-                (v == null || v.isEmpty) ? '제목을 입력하세요.' : null,
+                validator: (v) => (v == null || v.isEmpty) ? '제목을 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -41,8 +54,7 @@ class _QuestionWritePageState extends State<QuestionWritePage> {
                 minLines: 5,
                 maxLines: 10,
                 onSaved: (v) => content = v ?? '',
-                validator: (v) =>
-                (v == null || v.isEmpty) ? '내용을 입력하세요.' : null,
+                validator: (v) => (v == null || v.isEmpty) ? '내용을 입력하세요.' : null,
               ),
               const SizedBox(height: 32),
               SizedBox(
@@ -50,9 +62,10 @@ class _QuestionWritePageState extends State<QuestionWritePage> {
                 height: 48,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFF3B82F6), width: 1.4),
-                    foregroundColor: const Color(0xFF3B82F6),
+                    side: const BorderSide(color: kAccent, width: 1.4),
+                    foregroundColor: kAccent,
                     textStyle: const TextStyle(fontSize: 18),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   ),
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {

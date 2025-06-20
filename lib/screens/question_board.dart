@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'question_write_page.dart';
 
 // 데이터 모델
@@ -72,7 +73,20 @@ class _QuestionBoardState extends State<QuestionBoard> {
     final posts = questions[category] ?? [];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('질문 게시판')),
+      backgroundColor: kBackground,
+      appBar: AppBar(
+        title: const Text(
+          '질문 게시판',
+          style: TextStyle(
+            color: kPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: kBackground,
+        centerTitle: true,
+        elevation: 1.5,
+        iconTheme: const IconThemeData(color: kPrimary),
+      ),
       body: Column(
         children: [
           // 카테고리 버튼
@@ -86,12 +100,11 @@ class _QuestionBoardState extends State<QuestionBoard> {
                   child: ChoiceChip(
                     label: Text(categories[idx]),
                     selected: isSelected,
-                    showCheckmark: isSelected,
-                    checkmarkColor: Colors.white,
-                    selectedColor: Colors.grey[800],
-                    backgroundColor: Colors.grey[200],
+                    showCheckmark: false,
+                    selectedColor: kAccent,
+                    backgroundColor: kGray,
                     labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : Colors.black87,
+                      color: isSelected ? Colors.white : kPrimary,
                       fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                     ),
                     onSelected: (_) {
@@ -106,7 +119,12 @@ class _QuestionBoardState extends State<QuestionBoard> {
           // 게시글 리스트
           Expanded(
             child: posts.isEmpty
-                ? const Center(child: Text('질문이 없습니다.'))
+                ? const Center(
+              child: Text(
+                '질문이 없습니다.',
+                style: TextStyle(color: kTextSub),
+              ),
+            )
                 : ListView.builder(
               itemCount: posts.length,
               itemBuilder: (context, idx) {
@@ -133,7 +151,6 @@ class _QuestionBoardState extends State<QuestionBoard> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // 글 작성 페이지로 이동, 결과 받기
           final result = await Navigator.push(
             context,
             MaterialPageRoute(
@@ -153,13 +170,12 @@ class _QuestionBoardState extends State<QuestionBoard> {
             );
           }
         },
-        shape: const CircleBorder(), // 원형 (기본값이지만 명시적으로)
-        backgroundColor: Color(0xFFBC041D), // 모던 블루톤
-        foregroundColor: Colors.white, // 아이콘 색상
+        shape: const CircleBorder(),
+        backgroundColor: kAccent,
+        foregroundColor: kCard,
         elevation: 6,
         child: const Icon(Icons.add, size: 28),
       ),
-
     );
   }
 }
@@ -172,9 +188,10 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color(0xFF23252D),
+      color: kCard,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      elevation: 2.5,
       child: Padding(
         padding: const EdgeInsets.all(14.0),
         child: Row(
@@ -205,7 +222,7 @@ class QuestionCard extends StatelessWidget {
                         child: Text(
                           post.title,
                           style: const TextStyle(
-                            color: Color(0xFFF1F5F9),
+                            color: kPrimary,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -216,7 +233,7 @@ class QuestionCard extends StatelessWidget {
                       const SizedBox(width: 8),
                       // 신고 아이콘
                       IconButton(
-                        icon: const Icon(Icons.flag_outlined, size: 18, color: Color(0xFF94A3B8)),
+                        icon: const Icon(Icons.flag_outlined, size: 18, color: kGray),
                         onPressed: () {
                           // 신고 로직
                         },
@@ -228,7 +245,7 @@ class QuestionCard extends StatelessWidget {
                         icon: Icon(
                           post.isFavorite ? Icons.bookmark : Icons.bookmark_outline,
                           size: 18,
-                          color: post.isFavorite ? Colors.amber : const Color(0xFF94A3B8),
+                          color: post.isFavorite ? Colors.amber : kGray,
                         ),
                         onPressed: onFavorite,
                         tooltip: '즐겨찾기',
@@ -236,7 +253,7 @@ class QuestionCard extends StatelessWidget {
                       ),
                       // 댓글
                       IconButton(
-                        icon: const Icon(Icons.mode_comment_outlined, size: 18, color: Color(0xFF94A3B8)),
+                        icon: const Icon(Icons.mode_comment_outlined, size: 18, color: kGray),
                         onPressed: () {
                           // 댓글 페이지로 이동 등
                         },
@@ -250,7 +267,7 @@ class QuestionCard extends StatelessWidget {
                   Text(
                     post.date,
                     style: const TextStyle(
-                      color: Color(0xFF94A3B8),
+                      color: kTextSub,
                       fontSize: 12,
                     ),
                   ),
@@ -259,7 +276,7 @@ class QuestionCard extends StatelessWidget {
                   Text(
                     post.content,
                     style: const TextStyle(
-                      color: Color(0xFFF1F5F9),
+                      color: kPrimary,
                       fontSize: 15,
                     ),
                   ),

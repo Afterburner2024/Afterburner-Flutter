@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../widgets/custom_dropdown_button.dart';
 import '../widgets/header_menu_button.dart';
 import '../boards/study_group_board.dart';
@@ -19,7 +20,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackground,
       appBar: AppBar(
+        backgroundColor: kBackground,
+        elevation: 1.5,
         automaticallyImplyLeading: false,
         title: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -27,43 +31,46 @@ class _MainPageState extends State<MainPage> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                // 로고 버튼 - 클릭 시 홈(/)으로 이동
                 GestureDetector(
                   onTap: () {
-                    // 홈(루트)로 이동
                     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                   },
                   child: Image.asset(
                     'assets/logo.png',
-                    height: 32,
+                    height: 36,
                     fit: BoxFit.contain,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 HeaderMenuButton(
                   label: '홈 피드',
                   isActive: _selectedHeader == 0,
+                  activeColor: kAccent,
+                  textColor: kPrimary,
                   onTap: () => setState(() => _selectedHeader = 0),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 HeaderMenuButton(
                   label: '질문 게시판',
                   isActive: _selectedHeader == 1,
+                  activeColor: kAccent,
+                  textColor: kPrimary,
                   onTap: () {
-                    // 질문 게시판 화면으로 이동
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const QuestionBoard()),
                     );
                   },
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 HeaderMenuButton(
                   label: '자유 게시판',
                   isActive: _selectedHeader == 2,
+                  activeColor: kAccent,
+                  textColor: kPrimary,
                   onTap: () => setState(() => _selectedHeader = 2),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 24),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -72,10 +79,23 @@ class _MainPageState extends State<MainPage> {
                     );
                   },
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
+                    foregroundColor: kCard,
+                    backgroundColor: kSecondary,
                     textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      side: BorderSide(color: kSecondary.withOpacity(0.1)),
+                    ),
+                    elevation: 0,
                   ),
-                  child: const Text('로그인'),
+                  child: Text(
+                    '로그인',
+                    style: TextStyle(
+                      color: kPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -84,53 +104,118 @@ class _MainPageState extends State<MainPage> {
       ),
       body: ListView(
         children: [
-          // 배경 이미지 + 임팩트 문구
+          // Hero 영역
           Stack(
             alignment: Alignment.center,
             children: [
               SizedBox(
                 width: double.infinity,
-                height: 400,
-                child: Image.asset(
-                  'assets/background.png',
-                  fit: BoxFit.cover,
+                height: 340,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(36)),
+                  child: Image.asset(
+                    'assets/background.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Container(
                 width: double.infinity,
-                height: 400,
-                color: Colors.black.withOpacity(0.3),
-              ),
-              const Text(
-                '성장하고 싶은 개발자를 위한\n스터디 & 프로젝트 플랫폼',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  shadows: [Shadow(color: Colors.black, blurRadius: 8)],
+                height: 340,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(36)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      kBackground.withOpacity(0.85),
+                      Colors.transparent,
+                    ],
+                  ),
                 ),
-                textAlign: TextAlign.center,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text(
+                    '성장하는 개발자들의\n스터디 & 프로젝트 플랫폼',
+                    style: TextStyle(
+                      color: kPrimary,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
+                      shadows: [
+                        Shadow(color: Colors.white70, blurRadius: 8),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    '지금 바로 다양한 팀원들과 함께 시작하세요!',
+                    style: TextStyle(
+                      color: kTextSub,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ],
           ),
           const SizedBox(height: 32),
-          // 커스텀 드롭다운
+          // 드롭다운
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: CustomDropdownButton(
-              value: _selectedBoard,
-              items: const ['스터디 그룹', '사이드 프로젝트'],
-              onChanged: (selected) => setState(() => _selectedBoard = selected),
+            child: Container(
+              decoration: BoxDecoration(
+                color: kCard,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: kGray.withOpacity(0.20),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                border: Border.all(color: kGray, width: 1),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: CustomDropdownButton(
+                value: _selectedBoard,
+                items: const ['스터디 그룹', '사이드 프로젝트'],
+                onChanged: (selected) => setState(() => _selectedBoard = selected),
+                backgroundColor: kCard,
+                textColor: kPrimary,
+                activeColor: kAccent,
+              ),
             ),
           ),
           const SizedBox(height: 24),
-          // 선택된 게시판
+          // 게시판
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: _selectedBoard == '스터디 그룹'
-                ? const StudyGroupBoard()
-                : const SideProjectBoard(),
+            child: Container(
+              decoration: BoxDecoration(
+                color: kCard,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: kGray.withOpacity(0.10),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                border: Border.all(color: kGray, width: 1),
+              ),
+              padding: const EdgeInsets.all(20),
+              child: _selectedBoard == '스터디 그룹'
+                  ? const StudyGroupBoard()
+                  : const SideProjectBoard(),
+            ),
           ),
+          const SizedBox(height: 36),
         ],
       ),
     );
