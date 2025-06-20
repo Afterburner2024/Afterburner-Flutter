@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "449549507591",
+    "project_id": "afterburnerlogin",
+    "storage_bucket": "afterburnerlogin.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449549507591:android:a6d647ca6bf319cfe1dea2",
+        "android_client_info": {
+          "package_name": "com.afterburner.afterburner_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkJe-cfNv9BLsG5R5xXOOJK7gjprIvG8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
