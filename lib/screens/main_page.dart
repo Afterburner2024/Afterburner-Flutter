@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   }
                   _toggleDrawer();
                 },
-                currentRoute: ModalRoute.of(context)?.settings.name ?? '/',
+                currentRoute: (ModalRoute.of(context)?.settings.name ?? '/') ?? '/',
               ),
             ),
           ],

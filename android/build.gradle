@@ -4,8 +4,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2' // 이미 있을 수도 있음
-        classpath 'com.google.gms:google-services:4.3.15' // 이 줄을 꼭 추가!
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.google.gms:google-services:4.3.15'
     }
 }
 allprojects {

@@ -12,7 +12,12 @@
           "package_name": "com.afterburner.afterburner_flutter"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "449549507591-233n7u9u23jt1fvt95lh3ki2o47apidu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDkJe-cfNv9BLsG5R5xXOOJK7gjprIvG8s"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449549507591-233n7u9u23jt1fvt95lh3ki2o47apidu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
