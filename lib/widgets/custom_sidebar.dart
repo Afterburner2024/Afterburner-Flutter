@@ -68,13 +68,13 @@ class CustomSidebar extends StatelessWidget {
             ),
             SidebarItem(
               icon: Icons.lightbulb_outline,
-              text: "사이드프로젝트",
+              text: "사이드 프로젝트",
               selected: currentRoute == '/sideproject',
               onTap: () => onNavigate('/sideproject'),
             ),
             SidebarItem(
               icon: Icons.forum,
-              text: "질문게시판",
+              text: "질문 게시판",
               selected: currentRoute == '/qna',
               onTap: () => onNavigate('/qna'),
             ),

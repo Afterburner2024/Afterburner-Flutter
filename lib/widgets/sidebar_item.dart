@@ -5,13 +5,13 @@ class SidebarItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final bool selected;
-  final VoidCallback onTap; // ← 추가
+  final VoidCallback onTap;
 
   const SidebarItem({
     super.key,
     required this.icon,
     required this.text,
-    required this.onTap, // ← 추가
+    required this.onTap,
     this.selected = false,
   });
 
@@ -33,7 +33,7 @@ class SidebarItem extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        onTap: onTap, // ← 수정
+        onTap: onTap,
         contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
         horizontalTitleGap: 12,
       ),

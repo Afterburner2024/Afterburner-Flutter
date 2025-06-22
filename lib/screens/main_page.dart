@@ -42,8 +42,8 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.sidebarBackground,
-      body: SafeArea(
-        child: Stack(
+      body: Stack(
+
           children: [
             AnimatedBuilder(
               animation: _controller,
@@ -76,26 +76,15 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                 onClose: _toggleDrawer,
                 onNavigate: (route) {
                   if (ModalRoute.of(context)?.settings.name != route) {
-                    Navigator.of(context).pushReplacementNamed(route);
+                    Navigator.pushReplacementNamed(context, route);
                   }
-                  // 사이드바 닫기까지 원하면 아래처럼:
                   _toggleDrawer();
                 },
                 currentRoute: ModalRoute.of(context)?.settings.name ?? '/',
               ),
             ),
-            if (isOpen)
-              GestureDetector(
-                onTap: _toggleDrawer,
-                child: Container(
-                  color: Colors.black.withOpacity(0.17),
-                  width: double.infinity,
-                  height: double.infinity,
-                ),
-              ),
           ],
         ),
-      ),
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-class StudyPage extends StatelessWidget {
-  const StudyPage({super.key});
-
+class SideProjectPage extends StatelessWidget {
+  const SideProjectPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +10,7 @@ class StudyPage extends StatelessWidget {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black), // 아이콘 색상 검정
         title: const Text(
-          '스터디 페이지',
+          '사이드 프로젝트',
           style: TextStyle(
             color: Colors.black,         // 타이틀 색상 검정
             fontWeight: FontWeight.bold, // (선택) 굵게
@@ -27,7 +26,7 @@ class StudyPage extends StatelessWidget {
       ),
       body: const Center(
         child: Text(
-          '이곳은 스터디 페이지 입니다!',
+          '이곳은 사이드 프로젝트 입니다!',
           style: TextStyle(fontSize: 24, color: Colors.black),
         ),
       ),

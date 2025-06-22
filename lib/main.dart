@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/main_page.dart';
+import 'screens/study_page.dart';
+import 'screens/sideproject_page.dart';
+import 'screens/qna_page.dart';
+import 'screens/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,12 +19,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Afterburner',
       debugShowCheckedModeBanner: false,
-      home: const MainPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MainPage(),
+        '/study': (context) => const StudyPage(),
+        '/sideproject': (context) => const SideProjectPage(),
+        '/qna': (context) => const QnAPage(),
+        '/login': (context) => const LoginPage(),
+      },
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.black,
+        // scaffoldBackgroundColor: Colors.black,
         fontFamily: 'NotoSans',
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.black,
+          // backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           elevation: 0,
         ),

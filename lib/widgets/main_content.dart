@@ -12,7 +12,7 @@ class MainContent extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 56,
+            height: 90,
             child: Row(
               children: [
                 Expanded(child: Container()),
