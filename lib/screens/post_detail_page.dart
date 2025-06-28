@@ -1,101 +1,82 @@
 import 'package:flutter/material.dart';
 import '../models/project_post.dart';
-import '../theme/app_theme.dart';
+import '../theme/side_app_theme.dart';
+import '../widgets/detail/post_detail_part_chip.dart';
+import '../widgets/detail/post_detail_summary.dart';
+import '../widgets/detail/post_detail_progress.dart';
+import '../widgets/detail/post_detail_status_row.dart';
+import '../widgets/detail/post_detail_body.dart';
+import '../widgets/detail/post_detail_apply_button.dart';
 
 class PostDetailPage extends StatelessWidget {
   final ProjectPost post;
-  const PostDetailPage({super.key, required this.post});
+  final bool isBookmarked;
+  final VoidCallback onToggleBookmark;
+
+  const PostDetailPage({
+    Key? key,
+    required this.post,
+    required this.isBookmarked,
+    required this.onToggleBookmark,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool isDeadlinePassed = post.deadline.isBefore(DateTime.now());
     return Scaffold(
       backgroundColor: AppTheme.mainBackground,
       appBar: AppBar(
-        backgroundColor: AppTheme.mainBackground,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        iconTheme: const IconThemeData(color: AppTheme.mainTextPrimary),
+        iconTheme: IconThemeData(color: AppTheme.mainTextPrimary),
         title: Text(
           post.title,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.mainTextPrimary,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+            ),
+            onPressed: onToggleBookmark,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Card(
           elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           color: AppTheme.mainCard,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(22.0),
             child: ListView(
               shrinkWrap: true,
               children: [
-                Text(
-                  post.title,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.mainTextPrimary,
-                  ),
+                PostDetailPartChip(part: post.part),
+                SizedBox(height: 10),
+                PostDetailSummary(summary: post.summary),
+                SizedBox(height: 16),
+                PostDetailProgress(current: post.current, target: post.target),
+                SizedBox(height: 10),
+                PostDetailStatusRow(
+                  isDeadlinePassed: isDeadlinePassed,
+                  deadline: post.deadline,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  '카테고리: ${post.part}',
-                  style: const TextStyle(
-                    color: AppTheme.mainText,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  post.summary,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    color: AppTheme.mainTextSecondary,
-                  ),
-                ),
-                const Divider(height: 32, color: AppTheme.mainDivider),
-                Text(
-                  '여기에 상세 설명 및 모집 조건, 일정, 연락 방법 등 더 많은 정보가 들어갈 수 있습니다.',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppTheme.mainText,
-                  ),
-                ),
-                const SizedBox(height: 28),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 2.5,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      backgroundColor: AppTheme.buttonPositive,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    icon: const Icon(Icons.send, color: Colors.white),
-                    label: const Text(
-                      '지원/문의',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('지원/문의 기능은 추후 구현!')),
-                      );
-                    },
-                  ),
+                Divider(height: 30, color: AppTheme.mainDivider),
+                PostDetailBody(detail: post.detail),
+                SizedBox(height: 32),
+                PostDetailApplyButton(
+                  onApply: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('지원/문의 기능은 추후 구현!')),
+                    );
+                  },
                 ),
               ],
             ),
