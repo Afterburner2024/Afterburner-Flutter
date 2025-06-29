@@ -1,36 +1,95 @@
 import 'package:flutter/material.dart';
+import '../theme/side_app_theme.dart';
+import '../models/study_post.dart';
+import '../widgets/study/study_category_bar.dart';
+import '../widgets/study/study_sort_filter_bar.dart';
+import '../widgets/study/study_list_view.dart';
+import '../widgets/study/study_schedule_dialog.dart';
+import '../widgets/study/study_write_page.dart';
+import '../widgets/study/study_detail_page.dart';
 
-class StudyPage extends StatelessWidget {
+class StudyPage extends StatefulWidget {
   const StudyPage({super.key});
 
   @override
+  State<StudyPage> createState() => _StudyPageState();
+}
+
+class _StudyPageState extends State<StudyPage> {
+  String selectedCategory = '전체';
+  String selectedSort = '최신순';
+  final List<String> categories = ['전체', '프론트엔드', '백엔드', 'AI', 'CS', '기타'];
+  final List<String> sortOptions = ['최신순', '마감임박']; // '멤버수 많은순' 제거
+
+  List<StudyPost> posts = sampleStudyPosts;
+
+  void onCategoryChanged(String cat) => setState(() => selectedCategory = cat);
+  void onSortChanged(String? sort) => setState(() { if (sort != null) selectedSort = sort; });
+  void onShowSchedule() => showDialog(
+    context: context,
+    builder: (_) => StudyScheduleDialog(posts: posts),
+  );
+  void onPostTap(StudyPost post) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => StudyDetailPage(post: post),
+      ),
+    );
+  }
+  void onWritePressed() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => StudyWritePage()),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<StudyPost> filtered = posts
+        .where((p) => selectedCategory == '전체' || p.category == selectedCategory)
+        .toList();
+    // (정렬은 필요시 추가 구현)
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black), // 아이콘 색상 검정
-        title: const Text(
-          '스터디 페이지',
-          style: TextStyle(
-            color: Colors.black,         // 타이틀 색상 검정
-            fontWeight: FontWeight.bold, // (선택) 굵게
-            fontSize: 20,
-          ),
-        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pushReplacementNamed('/');
           },
         ),
+        title: const Text('스터디 페이지', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit_note, color: AppTheme.mainPrimary, size: 30),
+            tooltip: '스터디 모집',
+            onPressed: onWritePressed,
+          ),
+        ],
       ),
-      body: const Center(
-        child: Text(
-          '이곳은 스터디 페이지 입니다!',
-          style: TextStyle(fontSize: 24, color: Colors.black),
-        ),
+      body: Column(
+        children: [
+          StudyCategoryBar(
+            categories: categories,
+            selectedCategory: selectedCategory,
+            onCategoryChanged: onCategoryChanged,
+          ),
+          StudySortFilterBar(
+            sortOptions: sortOptions,
+            selectedSort: selectedSort,
+            onSortChanged: onSortChanged,
+            onShowSchedule: onShowSchedule,
+          ),
+          Expanded(
+            child: StudyListView(
+              posts: filtered,
+              onPostTap: onPostTap,
+            ),
+          ),
+        ],
       ),
+      // floatingActionButton: 제거
     );
   }
 }

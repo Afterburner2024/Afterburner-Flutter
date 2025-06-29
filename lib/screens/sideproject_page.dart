@@ -10,9 +10,20 @@ import 'post_detail_page.dart';
 
 // Dummy 데이터, 실제론 Provider/Api 등으로 분리 추천
 final List<ProjectPost> dummyPosts = [
-  // ... (생략, 기존과 동일)
+  ProjectPost(
+    id: 1,
+    title: '함께 만드는 Flutter 사이드 프로젝트',
+    summary: '앱 출시 목표로 스터디 & 협업할 프론트엔드 1명 모집!',
+    part: '프론트엔드',
+    current: 2,
+    target: 3,
+    createdAt: DateTime.now().subtract(Duration(days: 2)),
+    deadline: DateTime.now().add(Duration(days: 12)),
+    isDone: false,
+    bookmarks: 8,
+    detail: '실제 출시 경험 있는 멤버들과 팀을 이뤄 앱을 만듭니다.\n- 협업툴: Github, Figma\n- 회의: 주 1회(온라인)\n- 현재 참여: 백엔드 1명, 디자이너 1명\n관심 있으신 분은 지원/문의 남겨주세요!',
+  ),
 ];
-
 const categories = ['전체', '프론트엔드', '백엔드', '디자인', '기획', 'PM', 'DevOps', 'AI', 'QA'];
 const sortOptions = ['최신순', '마감임박', '인기순'];
 

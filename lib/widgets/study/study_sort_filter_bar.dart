@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../theme/side_app_theme.dart';
 
-class PostSortFilterBar extends StatelessWidget {
+class StudySortFilterBar extends StatelessWidget {
   final List<String> sortOptions;
   final String selectedSort;
   final Function(String?) onSortChanged;
   final VoidCallback onShowSchedule;
 
-  const PostSortFilterBar({
+  const StudySortFilterBar({
     super.key,
     required this.sortOptions,
     required this.selectedSort,
@@ -21,7 +21,6 @@ class PostSortFilterBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: Row(
         children: [
-          // 필터 드롭다운 (좌측)
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             decoration: BoxDecoration(
@@ -56,10 +55,9 @@ class PostSortFilterBar extends StatelessWidget {
             ),
           ),
           Spacer(),
-          // 모집 일정 보기 버튼 (우측)
           TextButton.icon(
             icon: Icon(Icons.event, color: AppTheme.mainPrimary),
-            label: Text("모집 일정 보기", style: TextStyle(color: AppTheme.mainPrimary)),
+            label: Text("스터디 일정", style: TextStyle(color: AppTheme.mainPrimary)),
             onPressed: onShowSchedule,
           ),
         ],
