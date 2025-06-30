@@ -1,14 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'sidebar_item.dart';
 import '../theme/app_theme.dart';
 
 class CustomSidebar extends StatelessWidget {
+  final User? user;
   final VoidCallback onClose;
   final void Function(String route) onNavigate;
   final String currentRoute;
 
   const CustomSidebar({
     super.key,
+    required this.user,
     required this.onClose,
     required this.onNavigate,
     required this.currentRoute,
@@ -35,15 +38,22 @@ class CustomSidebar extends StatelessWidget {
                 CircleAvatar(
                   radius: 24,
                   backgroundColor: AppTheme.sidebarProfileBackground,
-                  child: const Icon(Icons.person, size: 28, color: Colors.white),
+                  backgroundImage: user?.photoURL != null ? NetworkImage(user!.photoURL!) : null,
+                  child: user?.photoURL == null ? const Icon(Icons.person, size: 28, color: Colors.white) : null,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("닉네임", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                      Text("역할/설명", style: TextStyle(color: Colors.white60, fontSize: 12)),
+                    children: [
+                      Text(
+                        user?.displayName ?? "닉네임",
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        user?.email ?? "이메일 없음",
+                        style: const TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
                     ],
                   ),
                 ),
@@ -78,12 +88,30 @@ class CustomSidebar extends StatelessWidget {
               selected: currentRoute == '/qna',
               onTap: () => onNavigate('/qna'),
             ),
+            if (user == null) // 로그인 안했을 때
+              SidebarItem(
+                icon: Icons.login,
+                text: "로그인",
+                selected: currentRoute == '/login',
+                onTap: () => onNavigate('/login'),
+              ),
+            if (user != null) ...[ // 로그인 했을 때
             SidebarItem(
-              icon: Icons.login,
-              text: "로그인",
-              selected: currentRoute == '/login',
-              onTap: () => onNavigate('/login'),
+            icon: Icons.account_circle,
+            text: "마이 페이지",
+            selected: currentRoute == '/mypage',
+            onTap: () => onNavigate('/mypage'),
             ),
+            SidebarItem(
+            icon: Icons.logout,
+            text: "로그아웃",
+            selected: false,
+            onTap: () async {
+            await FirebaseAuth.instance.signOut();
+            onNavigate('/'); // 로그아웃 후 홈으로
+               },
+              ),
+            ],
             const Expanded(child: SizedBox()),
           ],
         ),
