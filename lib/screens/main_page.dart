@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/main_content.dart';
 import '../widgets/custom_sidebar.dart';
 import '../theme/app_theme.dart';
@@ -42,49 +43,61 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.sidebarBackground,
-      body: Stack(
-
-          children: [
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                double slide = drawerWidth * _controller.value;
-                double angle = -1.2217 * _controller.value;
-                return Transform(
-                  alignment: Alignment.centerRight,
-                  transform: Matrix4.identity()
-                    ..setEntry(3, 2, 0.001)
-                    ..translate(-slide)
-                    ..rotateY(angle),
-                  child: child,
-                );
-              },
-              child: MainContent(onMenuTap: _toggleDrawer),
-            ),
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                double slide = drawerWidth * (1 - _controller.value);
-                return Positioned(
-                  top: 0,
-                  right: -slide,
-                  bottom: 0,
-                  child: child!,
-                );
-              },
-              child: CustomSidebar(
-                onClose: _toggleDrawer,
-                onNavigate: (route) {
-                  if (ModalRoute.of(context)?.settings.name != route) {
-                    Navigator.pushReplacementNamed(context, route);
-                  }
-                  _toggleDrawer();
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          final user = snapshot.data;
+          return Stack(
+            children: [
+              AnimatedBuilder(
+                animation: _controller,
+                builder: (context, child) {
+                  double slide = drawerWidth * _controller.value;
+                  double angle = -1.2217 * _controller.value;
+                  return Transform(
+                    alignment: Alignment.centerRight,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001)
+                      ..translate(-slide)
+                      ..rotateY(angle),
+                    child: child,
+                  );
                 },
-                currentRoute: (ModalRoute.of(context)?.settings.name ?? '/') ?? '/',
+                child: MainContent(onMenuTap: _toggleDrawer),
               ),
-            ),
-          ],
-        ),
+              AnimatedBuilder(
+                animation: _controller,
+                builder: (context, child) {
+                  double slide = drawerWidth * (1 - _controller.value);
+                  return Positioned(
+                    top: 0,
+                    right: -slide,
+                    bottom: 0,
+                    child: child!,
+                  );
+                },
+                child: CustomSidebar(
+                  user: user, // 로그인 상태 전달
+                  onClose: _toggleDrawer,
+                  onNavigate: (route) {
+                    if (ModalRoute
+                        .of(context)
+                        ?.settings
+                        .name != route) {
+                      Navigator.pushReplacementNamed(context, route);
+                    }
+                    _toggleDrawer();
+                  },
+                  currentRoute: (ModalRoute
+                      .of(context)
+                      ?.settings
+                      .name ?? '/') ?? '/',
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
