@@ -80,18 +80,12 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   user: user, // 로그인 상태 전달
                   onClose: _toggleDrawer,
                   onNavigate: (route) {
-                    if (ModalRoute
-                        .of(context)
-                        ?.settings
-                        .name != route) {
+                    if (ModalRoute.of(context)?.settings.name != route) {
                       Navigator.pushReplacementNamed(context, route);
                     }
                     _toggleDrawer();
                   },
-                  currentRoute: (ModalRoute
-                      .of(context)
-                      ?.settings
-                      .name ?? '/') ?? '/',
+                  currentRoute: (ModalRoute.of(context)?.settings.name ?? '/') ?? '/',
                 ),
               ),
             ],
