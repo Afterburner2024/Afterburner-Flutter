@@ -20,15 +20,12 @@ class _LoginPageState extends State<LoginPage> {
         return; // 사용자가 로그인 취소
       }
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      // 로그인 성공시 홈 화면 이동 등 처리
       if (mounted) {
         Navigator.of(context).pushReplacementNamed('/');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -48,8 +45,20 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('로그인'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black), // 검정색 뒤로가기
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/'); // 루트(메인)로 이동
+          },
+        ),
+        title: const Text(
+          '로그인',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Center(
         child: isLoading
