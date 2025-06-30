@@ -5,6 +5,7 @@ import 'screens/study_page.dart';
 import 'screens/sideproject_page.dart';
 import 'screens/qna_page.dart';
 import 'screens/login_page.dart';
+import 'screens/my_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/sideproject': (context) => const SideProjectPage(),
         '/qna': (context) => const QnAPage(),
         '/login': (context) => const LoginPage(),
+        '/mypage': (context) => const MyPage(),
       },
       theme: ThemeData(
         // scaffoldBackgroundColor: Colors.black,
