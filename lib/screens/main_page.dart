@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../widgets/main_content.dart';
+import '../widgets/mainContent/main_content.dart';
 import '../widgets/custom_sidebar.dart';
 import '../theme/app_theme.dart';
 
