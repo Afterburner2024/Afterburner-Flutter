@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'auth_provider.dart';
+
 import 'screens/main_page.dart';
 import 'screens/study_page.dart';
 import 'screens/sideproject_page.dart';
@@ -10,7 +13,12 @@ import 'screens/my_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AuthProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -30,10 +38,8 @@ class MyApp extends StatelessWidget {
         '/mypage': (context) => const MyPage(),
       },
       theme: ThemeData(
-        // scaffoldBackgroundColor: Colors.black,
         fontFamily: 'NotoSans',
         appBarTheme: const AppBarTheme(
-          // backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           elevation: 0,
         ),

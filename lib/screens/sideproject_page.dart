@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../auth_provider.dart';
 import '../models/project_post.dart';
 import '../theme/side_app_theme.dart';
 import '../widgets/post/post_category_bar.dart';
@@ -7,8 +9,9 @@ import '../widgets/post/post_list_view.dart';
 import '../widgets/post/post_schedule_dialog.dart';
 import 'post_write_page.dart';
 import 'post_detail_page.dart';
+import '../widgets/main_scaffold.dart'; // MainScaffold import
 
-// Dummy 데이터, 실제론 Provider/Api 등으로 분리 추천
+// Dummy 데이터
 final List<ProjectPost> dummyPosts = [
   ProjectPost(
     id: 1,
@@ -50,6 +53,7 @@ class _SideProjectPageState extends State<SideProjectPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<AuthProvider>().isLoggedIn;
     final filteredPosts = dummyPosts
         .where((p) => selectedCategory == '전체' || p.part == selectedCategory)
         .where((p) => p.deadline.isAfter(DateTime.now()))
@@ -62,8 +66,9 @@ class _SideProjectPageState extends State<SideProjectPage> {
       return 0;
     });
 
-    return Scaffold(
-      backgroundColor: AppTheme.mainBackground,
+    return MainScaffold(
+      currentIndex: 2,              // 0:홈, 1:스터디, 2:사이드, 3:QnA, 4:마이페이지/로그인
+      isLoggedIn: isLoggedIn,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,

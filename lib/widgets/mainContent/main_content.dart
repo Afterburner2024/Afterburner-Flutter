@@ -2,19 +2,36 @@ import 'package:flutter/material.dart';
 import 'bottom_wave_clipper.dart';
 import 'static_circle_painter.dart';
 import 'custom_corner_dot_card.dart';
-import 'neon_action_card.dart';
 
 class MainContent extends StatefulWidget {
-  final VoidCallback onMenuTap;
-  const MainContent({super.key, required this.onMenuTap});
+  const MainContent({super.key});
 
   @override
   State<MainContent> createState() => _MainContentState();
 }
 
 class _MainContentState extends State<MainContent> {
-  int _currentPage = 0;
+  int _currentPage = 0; // BottomNavBar index (0=홈)
   final PageController _pageController = PageController();
+
+  // 실제 앱에서는 Provider, Firebase 등과 연동!
+  bool isLoggedIn = false;
+
+  final List<String> routesWhenLoggedOut = [
+    '/',
+    '/study',
+    '/sideproject',
+    '/qna',
+    '/login',
+  ];
+
+  final List<String> routesWhenLoggedIn = [
+    '/',
+    '/study',
+    '/sideproject',
+    '/qna',
+    '/mypage',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +42,7 @@ class _MainContentState extends State<MainContent> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // 상단 곡선 + "정적인" 원
+            // 상단 곡선 + 정적 원
             ClipPath(
               clipper: BottomWaveClipper(),
               child: SizedBox(
@@ -72,11 +89,6 @@ class _MainContentState extends State<MainContent> {
                                     color: Colors.white,
                                     letterSpacing: 1.5,
                                   ),
-                                ),
-                                const Spacer(),
-                                IconButton(
-                                  icon: Icon(Icons.menu, size: 32, color: Colors.white),
-                                  onPressed: widget.onMenuTap,
                                 ),
                               ],
                             ),

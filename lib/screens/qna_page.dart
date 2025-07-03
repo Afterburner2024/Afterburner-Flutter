@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../auth_provider.dart';
+import '../widgets/main_scaffold.dart'; // MainScaffold import!
 
 class QnAPage extends StatelessWidget {
   const QnAPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final isLoggedIn = context.watch<AuthProvider>().isLoggedIn;
+    return MainScaffold(
+      currentIndex: 3, // 0:홈, 1:스터디, 2:사이드, 3:QnA, 4:마이페이지/로그인
+      isLoggedIn: isLoggedIn,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black), // 아이콘 색상 검정
+        iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
           '질문 게시판',
           style: TextStyle(
-            color: Colors.black,         // 타이틀 색상 검정
-            fontWeight: FontWeight.bold, // (선택) 굵게
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
         ),

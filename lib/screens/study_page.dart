@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../auth_provider.dart';
 import '../theme/side_app_theme.dart';
 import '../models/study_post.dart';
 import '../widgets/study/study_category_bar.dart';
@@ -7,6 +9,7 @@ import '../widgets/study/study_list_view.dart';
 import '../widgets/study/study_schedule_dialog.dart';
 import '../widgets/study/study_write_page.dart';
 import '../widgets/study/study_detail_page.dart';
+import '../widgets/main_scaffold.dart'; // MainScaffold import!
 
 class StudyPage extends StatefulWidget {
   const StudyPage({super.key});
@@ -19,16 +22,23 @@ class _StudyPageState extends State<StudyPage> {
   String selectedCategory = '전체';
   String selectedSort = '최신순';
   final List<String> categories = ['전체', '프론트엔드', '백엔드', 'AI', 'CS', '기타'];
-  final List<String> sortOptions = ['최신순', '마감임박']; // '멤버수 많은순' 제거
+  final List<String> sortOptions = ['최신순', '마감임박'];
 
   List<StudyPost> posts = sampleStudyPosts;
 
   void onCategoryChanged(String cat) => setState(() => selectedCategory = cat);
-  void onSortChanged(String? sort) => setState(() { if (sort != null) selectedSort = sort; });
-  void onShowSchedule() => showDialog(
-    context: context,
-    builder: (_) => StudyScheduleDialog(posts: posts),
-  );
+
+  void onSortChanged(String? sort) =>
+      setState(() {
+        if (sort != null) selectedSort = sort;
+      });
+
+  void onShowSchedule() =>
+      showDialog(
+        context: context,
+        builder: (_) => StudyScheduleDialog(posts: posts),
+      );
+
   void onPostTap(StudyPost post) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -36,6 +46,7 @@ class _StudyPageState extends State<StudyPage> {
       ),
     );
   }
+
   void onWritePressed() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => StudyWritePage()),
@@ -44,12 +55,15 @@ class _StudyPageState extends State<StudyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<AuthProvider>().isLoggedIn;
     List<StudyPost> filtered = posts
-        .where((p) => selectedCategory == '전체' || p.category == selectedCategory)
+        .where((p) =>
+    selectedCategory == '전체' || p.category == selectedCategory)
         .toList();
-    // (정렬은 필요시 추가 구현)
 
-    return Scaffold(
+    return MainScaffold(
+      currentIndex: 1,
+      isLoggedIn: isLoggedIn,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -59,7 +73,8 @@ class _StudyPageState extends State<StudyPage> {
             Navigator.of(context).pushReplacementNamed('/');
           },
         ),
-        title: const Text('스터디 페이지', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: const Text('스터디 페이지',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             icon: Icon(Icons.edit_note, color: AppTheme.mainPrimary, size: 30),
@@ -89,7 +104,6 @@ class _StudyPageState extends State<StudyPage> {
           ),
         ],
       ),
-      // floatingActionButton: 제거
     );
   }
 }

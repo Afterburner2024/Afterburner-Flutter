@@ -20,8 +20,6 @@ class AppTheme {
   static const Color mainTextPrimary = Color(0xFF0D0D0D);        // 제목, 헤더
   static const Color mainTextSecondary = Color(0xFF595959);      // 서브텍스트, 설명, 플레이스홀더
   static const Color mainDivider = Color(0xFFE5EAF1);
-  static const Color mainCardSecondary = Color(0xFFF4F6FB);
-  static const Color mainAccent = Color(0xFF7B61FF);
 
   // 버튼
   static const Color buttonPositive = Color(0xFF3C63EA);         // 긍정 버튼(메인)
