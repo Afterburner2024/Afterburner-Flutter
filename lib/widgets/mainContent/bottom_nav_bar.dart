@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class BottomNavBar extends StatelessWidget {
+class CustomNavBar extends StatelessWidget {
   final int currentIndex;
   final bool isLoggedIn;
   final ValueChanged<int> onTap;
 
-  const BottomNavBar({
+  const CustomNavBar({
     Key? key,
     required this.currentIndex,
     required this.isLoggedIn,
@@ -47,65 +47,65 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icons = isLoggedIn ? iconsWhenLoggedIn : iconsWhenLoggedOut;
-    final labels = isLoggedIn ? labelsWhenLoggedIn : labelsWhenLoggedOut;
-    final indicatorColor = const Color(0xFF3366FF); // 푸른 계열
+    final indicatorColor = const Color(0xFF3366FF);
+
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFF151d2b), // 딥블루
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.12),
-                spreadRadius: 1,
-                blurRadius: 14,
-                offset: const Offset(0, 5),
-              ),
-            ],
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: const Color(0xFF151d2b),
-            elevation: 0,
-            currentIndex: currentIndex,
-            onTap: onTap,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white60,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            items: List.generate(icons.length, (idx) {
-              return BottomNavigationBarItem(
-                label: labels[idx],
-                icon: Stack(
-                  alignment: Alignment.topCenter,
+      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 28),
+      child: Container(
+        height: 68, // 원하는 바 높이
+        decoration: BoxDecoration(
+          color: const Color(0xFF151d2b),
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.10),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(icons.length, (idx) {
+            final selected = currentIndex == idx;
+            return Expanded(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () => onTap(idx),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8), // 아이콘을 살짝 내림
-                      child: Icon(
-                        icons[idx],
-                        size: 26,
-                      ),
-                    ),
-                    if (currentIndex == idx)
-                      Positioned(
-                        top: 0,
-                        child: Container(
-                          width: 16,
-                          height: 6,
-                          decoration: BoxDecoration(
-                            color: indicatorColor,
-                            borderRadius: BorderRadius.circular(6),
+                    Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: Icon(
+                            icons[idx],
+                            size: 32, // 자유롭게 변경
+                            color: selected ? Colors.white : Colors.white60,
                           ),
                         ),
-                      ),
+                        if (selected)
+                          Positioned(
+                            top: 0,
+                            child: Container(
+                              width: 32,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: indicatorColor,
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
                   ],
                 ),
-              );
-            }),
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );

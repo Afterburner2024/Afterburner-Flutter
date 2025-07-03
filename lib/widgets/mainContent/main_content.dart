@@ -11,10 +11,8 @@ class MainContent extends StatefulWidget {
 }
 
 class _MainContentState extends State<MainContent> {
-  int _currentPage = 0; // BottomNavBar index (0=홈)
+  int _currentPage = 0;
   final PageController _pageController = PageController();
-
-  // 실제 앱에서는 Provider, Firebase 등과 연동!
   bool isLoggedIn = false;
 
   final List<String> routesWhenLoggedOut = [
@@ -42,7 +40,6 @@ class _MainContentState extends State<MainContent> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // 상단 곡선 + 정적 원
             ClipPath(
               clipper: BottomWaveClipper(),
               child: SizedBox(
@@ -112,7 +109,6 @@ class _MainContentState extends State<MainContent> {
               ),
             ),
             const SizedBox(height: 28),
-            // 페이지네이션 인디케이터
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(

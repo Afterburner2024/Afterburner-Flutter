@@ -20,7 +20,7 @@ class MainScaffold extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: body,
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: CustomNavBar(
         currentIndex: currentIndex,
         isLoggedIn: isLoggedIn,
           onTap: (index) {

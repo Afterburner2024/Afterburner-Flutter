@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
-import '../auth_provider.dart'; // Provider import!
+import '../auth_provider.dart';
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
@@ -9,7 +9,6 @@ class MyPage extends StatelessWidget {
   Future<void> _handleLogout(BuildContext context) async {
     try {
       await context.read<AuthProvider>().signOut();
-      // 로그아웃 후 로그인 페이지로 이동
       if (context.mounted) {
         Navigator.of(context).pushReplacementNamed('/login');
       }
@@ -26,35 +25,32 @@ class MyPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/'); // 루트로 이동
-          },
-        ),
-        title: const Text(
-          '마이 페이지',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
         backgroundColor: Colors.white,
         elevation: 0,
-        centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
-        actions: [
-          if (user != null)
-            IconButton(
-              icon: const Icon(Icons.logout, color: Colors.black),
-              tooltip: '로그아웃',
-              onPressed: () => _handleLogout(context),
-            ),
-        ],
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+        ),
+        titleSpacing: 0, // 제목이 leading에 딱 붙게
+        title: const Text(
+          '마이 페이지',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        centerTitle: false,
       ),
-      body: Center(
-        child: user == null
-            ? const Text('로그인이 필요합니다.')
-            : Column(
-          mainAxisSize: MainAxisSize.min,
+      body: user == null
+          ? const Center(child: Text('로그인이 필요합니다.'))
+          : Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 1. 프로필 이미지
             CircleAvatar(
               radius: 40,
               backgroundImage: user.photoURL != null
@@ -64,20 +60,37 @@ class MyPage extends StatelessWidget {
                   ? const Icon(Icons.person, size: 40)
                   : null,
             ),
-            const SizedBox(height: 16),
-            Text(user.displayName ?? 'No Name'),
-            Text(user.email ?? 'No Email'),
-            const SizedBox(height: 24),
-            // 로그아웃 버튼(아래쪽에도 배치)
-            ElevatedButton.icon(
-              icon: const Icon(Icons.logout),
-              label: const Text('로그아웃'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(160, 44),
+            const SizedBox(width: 20),
+            // 2. 이름/이메일/로그아웃
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 6),
+                  Text(
+                    user.displayName ?? 'No Name',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    user.email ?? 'No Email',
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 18),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.logout),
+                    label: const Text('로그아웃'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(140, 40),
+                    ),
+                    onPressed: () => _handleLogout(context),
+                  ),
+                ],
               ),
-              onPressed: () => _handleLogout(context),
             ),
           ],
         ),
