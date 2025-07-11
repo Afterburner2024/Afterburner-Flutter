@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../auth_provider.dart';
+import '../widgets/login/afterberner_logo.dart';
+import '../widgets/login/google_login_card.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _handleGoogleLogin() async {
     setState(() => isLoading = true);
     try {
-      // Provider의 메서드 사용!
       await context.read<AuthProvider>().signInWithGoogle();
       if (mounted) {
         Navigator.of(context).pushReplacementNamed('/');
@@ -48,25 +49,14 @@ class _LoginPageState extends State<LoginPage> {
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Center(
-        child: isLoading
-            ? const CircularProgressIndicator()
-            : Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton.icon(
-              onPressed: _handleGoogleLogin,
-              icon: Image.asset(
-                'assets/google_logo.png',
-                height: 24,
-                width: 24,
-              ),
-              label: const Text('구글로 로그인'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black87,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                minimumSize: const Size(220, 48),
-              ),
+            const AfterbernerLogo(),
+            const SizedBox(height: 12),
+            GoogleLoginCard(
+              onTap: _handleGoogleLogin,
+              isLoading: isLoading,
             ),
           ],
         ),
