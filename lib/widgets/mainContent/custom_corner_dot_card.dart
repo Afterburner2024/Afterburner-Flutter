@@ -46,10 +46,10 @@ class CustomCornerDotCard extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 21,
-                            color: Colors.black,
+                            color: Colors.grey[700],
                           ),
                         ),
                         const SizedBox(height: 7),
@@ -61,9 +61,9 @@ class CustomCornerDotCard extends StatelessWidget {
                         const SizedBox(height: 12),
                         Text(
                           desc,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
-                            color: Colors.black87,
+                            color: Colors.grey[700],
                           ),
                         ),
                       ],

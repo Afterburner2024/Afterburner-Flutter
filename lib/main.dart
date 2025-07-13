@@ -9,6 +9,7 @@ import 'screens/sideproject_page.dart';
 import 'screens/qna_page.dart';
 import 'screens/login_page.dart';
 import 'screens/my_page.dart';
+import 'screens/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +29,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Afterburner',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
+        '/splash': (context) => const SplashPage(),
         '/': (context) => const MainPage(),
         '/study': (context) => const StudyPage(),
         '/sideproject': (context) => const SideProjectPage(),
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
+      themeMode: ThemeMode.light,
     );
   }
 }

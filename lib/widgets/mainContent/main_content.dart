@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'bottom_wave_clipper.dart';
-import 'static_circle_painter.dart';
 import 'custom_corner_dot_card.dart';
 
 class MainContent extends StatefulWidget {
@@ -33,10 +32,10 @@ class _MainContentState extends State<MainContent> {
 
   @override
   Widget build(BuildContext context) {
-    final double curveHeight = MediaQuery.of(context).size.height * 0.4;
+    final double curveHeight = MediaQuery.of(context).size.height * 0.3;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF0F0F0),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -48,20 +47,19 @@ class _MainContentState extends State<MainContent> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
+                    // ★ 밝아지는 그라데이션 적용 부분
                     Container(
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black,
-                            Color(0xFF151d2b),
+                            Color(0xFF9E9E9E), // 위: 진한 중간회색, 완전 불투명
+                            Color(0x999E9E9E), // 중간: 80% 투명
+                            Color(0x339E9E9E), // 아래: 완전 투명, 밝은 회색
                           ],
                         ),
                       ),
-                    ),
-                    CustomPaint(
-                      painter: StaticCircleOutlinePainter(),
                     ),
                     SafeArea(
                       child: Padding(
@@ -75,7 +73,7 @@ class _MainContentState extends State<MainContent> {
                                 Image.asset(
                                   'assets/logo.png',
                                   width: 30,
-                                  height: 30,
+                                  height: 40,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
@@ -108,7 +106,7 @@ class _MainContentState extends State<MainContent> {
                 ),
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 88),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -120,8 +118,8 @@ class _MainContentState extends State<MainContent> {
                   height: 10,
                   decoration: BoxDecoration(
                     color: _currentPage == idx
-                        ? Colors.blueAccent
-                        : Colors.grey[500],
+                        ? Colors.grey[700]
+                        : const Color(0x339E9E9E),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -141,19 +139,19 @@ class _MainContentState extends State<MainContent> {
                       'title': '스터디 예시',
                       'desc': '함께 성장하는 개발자 스터디!\n할일, 일정, 기록 등 관리',
                       'icon': Icons.groups_2,
-                      'color': Colors.orangeAccent,
+                      'color': Color(0xFFFB542F),
                     },
                     {
                       'title': '사이드 프로젝트',
                       'desc': '협업 중심의 사이드 프로젝트!\n기획, 개발, 디자인 모두 OK',
                       'icon': Icons.bolt,
-                      'color': Colors.redAccent,
+                      'color': Color(0xFFFB542F),
                     },
                     {
                       'title': 'QnA 게시판',
                       'desc': '궁금한 건 언제든 질문!\n실시간 개발자 커뮤니티',
                       'icon': Icons.question_answer,
-                      'color': Colors.blueAccent,
+                      'color': Color(0xFFFB542F),
                     },
                   ];
                   final data = cardPage[idx];

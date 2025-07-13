@@ -20,9 +20,10 @@ class MainScaffold extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: body,
+      backgroundColor: const Color(0xFFF0F0F0), // ← 배경색 추가!
       bottomNavigationBar: CustomNavBar(
-        currentIndex: currentIndex,
-        isLoggedIn: isLoggedIn,
+          currentIndex: currentIndex,
+          isLoggedIn: isLoggedIn,
           onTap: (index) {
             final routes = isLoggedIn
                 ? ['/', '/study', '/sideproject', '/qna', '/mypage']

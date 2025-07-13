@@ -67,6 +67,8 @@ flutter:
     - assets/google_logo.png
     - assets/Afterberner.png
     - assets/google_logo2.png
+    - assets/letter_a_with_line_reversed.png
+    - assets/splash_text.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

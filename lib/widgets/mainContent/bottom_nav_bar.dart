@@ -47,65 +47,90 @@ class CustomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icons = isLoggedIn ? iconsWhenLoggedIn : iconsWhenLoggedOut;
-    final indicatorColor = const Color(0xFF3366FF);
+    final outlinedIcons = isLoggedIn
+        ? [
+      Icons.home_outlined,
+      Icons.groups_2_outlined,
+      Icons.bolt_outlined,
+      Icons.question_answer_outlined,
+      Icons.person_outline,
+    ]
+        : [
+      Icons.home_outlined,
+      Icons.groups_2_outlined,
+      Icons.bolt_outlined,
+      Icons.question_answer_outlined,
+      Icons.login_outlined,
+    ];
+    final indicatorColor = const Color(0xFFFD9F3B);
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 28),
-      child: Container(
-        height: 68, // 원하는 바 높이
-        decoration: BoxDecoration(
-          color: const Color(0xFF151d2b),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.10),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(icons.length, (idx) {
-            final selected = currentIndex == idx;
-            return Expanded(
-              child: InkWell(
-                borderRadius: BorderRadius.circular(24),
-                onTap: () => onTap(idx),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(
-                      alignment: Alignment.topCenter,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Icon(
-                            icons[idx],
-                            size: 32, // 자유롭게 변경
-                            color: selected ? Colors.white : Colors.white60,
-                          ),
-                        ),
-                        if (selected)
-                          Positioned(
-                            top: 0,
-                            child: Container(
-                              width: 32,
-                              height: 4,
-                              decoration: BoxDecoration(
-                                color: indicatorColor,
-                                borderRadius: BorderRadius.circular(3),
-                              ),
+    return SafeArea(
+      bottom: true,
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Container(
+          height: 68,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.10),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(icons.length, (idx) {
+              final selected = currentIndex == idx;
+              return Expanded(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(24),
+                  onTap: () => onTap(idx),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: selected
+                                ? Icon(
+                              icons[idx],
+                              size: 32,
+                              color: const Color(0xFFFB542F),
+                            )
+                                : Icon(
+                              outlinedIcons[idx],
+                              size: 32,
+                              color: Colors.grey[700], // 테두리만 검정, 내부 비움
                             ),
                           ),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                  ],
+                          if (selected)
+                            Positioned(
+                              top: 0,
+                              child: Container(
+                                width: 32,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  color: indicatorColor,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );
