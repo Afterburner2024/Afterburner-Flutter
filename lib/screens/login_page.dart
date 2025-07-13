@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../auth_provider.dart';
-import '../widgets/login/afterberner_logo.dart';
+import '../theme/side_app_theme.dart';
 import '../widgets/login/google_login_card.dart';
+import '../widgets/appBar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,28 +33,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/');
-          },
-        ),
-        title: const Text(
-          '로그인',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black),
+      backgroundColor: AppTheme.mainBackground, // 배경 테마색
+      appBar: CommonAppBar(
+        title: '로그인',
+        onBack: () {
+          Navigator.pushReplacementNamed(context, '/');
+        },
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const AfterbernerLogo(),
-            const SizedBox(height: 12),
+            // 필요하면 상단 로고 등 추가
+            const SizedBox(height: 32),
             GoogleLoginCard(
               onTap: _handleGoogleLogin,
               isLoading: isLoading,

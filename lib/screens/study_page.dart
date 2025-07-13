@@ -9,7 +9,8 @@ import '../widgets/study/study_list_view.dart';
 import '../widgets/study/study_schedule_dialog.dart';
 import '../widgets/study/study_write_page.dart';
 import '../widgets/study/study_detail_page.dart';
-import '../widgets/main_scaffold.dart'; // MainScaffold import!
+import '../widgets/main_scaffold.dart';
+import '../widgets/appBar.dart';
 
 class StudyPage extends StatefulWidget {
   const StudyPage({super.key});
@@ -64,24 +65,12 @@ class _StudyPageState extends State<StudyPage> {
     return MainScaffold(
       currentIndex: 1,
       isLoggedIn: isLoggedIn,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed('/');
-          },
-        ),
-        title: const Text('스터디 페이지',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.edit_note, color: AppTheme.mainPrimary, size: 30),
-            tooltip: '스터디 모집',
-            onPressed: onWritePressed,
-          ),
-        ],
+      appBar: CommonAppBar(
+        title: '스터디 페이지',
+        onBack: () {
+          Navigator.of(context).pushReplacementNamed('/');
+        },
+        onAdd: onWritePressed, // 오른쪽 버튼 콜백
       ),
       body: Column(
         children: [

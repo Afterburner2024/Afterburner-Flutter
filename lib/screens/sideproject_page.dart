@@ -10,6 +10,7 @@ import '../widgets/post/post_schedule_dialog.dart';
 import 'post_write_page.dart';
 import 'post_detail_page.dart';
 import '../widgets/main_scaffold.dart'; // MainScaffold import
+import '../widgets/appBar.dart';
 
 // Dummy 데이터
 final List<ProjectPost> dummyPosts = [
@@ -69,39 +70,18 @@ class _SideProjectPageState extends State<SideProjectPage> {
     return MainScaffold(
       currentIndex: 2,              // 0:홈, 1:스터디, 2:사이드, 3:QnA, 4:마이페이지/로그인
       isLoggedIn: isLoggedIn,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.mainTextPrimary),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/');
-          },
-        ),
-        title: Text(
-          '사이드 프로젝트',
-          style: TextStyle(
-            color: AppTheme.mainTextPrimary,
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: IconButton(
-              icon: Icon(Icons.add_circle, color: AppTheme.mainPrimary, size: 36),
-              onPressed: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const PostWritePage()),
-                );
-                setState(() {});
-              },
-              tooltip: "글쓰기",
-            ),
-          ),
-        ],
+      appBar: CommonAppBar(
+        title: '사이드 프로젝트',
+        onBack: () {
+          Navigator.pushReplacementNamed(context, '/');
+        },
+        onAdd: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const PostWritePage()),
+          );
+          setState(() {});
+        },
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

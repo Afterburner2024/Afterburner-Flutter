@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../theme/side_app_theme.dart'; // ← 상대/절대경로로 import 경로 맞춰주세요!
 
 class GoogleLoginCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -23,12 +24,12 @@ class GoogleLoginCard extends StatelessWidget {
               width: 240,
               height: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppTheme.mainCard, // 카드 배경색
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black, width: 2.2),
+                border: Border.all(color: AppTheme.mainPrimary, width: 2.2), // 메인컬러로 테두리
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: AppTheme.mainShadow, // 테마 그림자
                     blurRadius: 12,
                     offset: const Offset(0, 5),
                   ),
@@ -42,7 +43,10 @@ class GoogleLoginCard extends StatelessWidget {
                       ? const SizedBox(
                     height: 40,
                     width: 40,
-                    child: CircularProgressIndicator(strokeWidth: 3),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      valueColor: AlwaysStoppedAnimation(AppTheme.mainPrimary),
+                    ),
                   )
                       : Row(
                     children: [
@@ -57,7 +61,7 @@ class GoogleLoginCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppTheme.mainPrimary, // 메인컬러로 텍스트
                           letterSpacing: 0.3,
                         ),
                       ),
@@ -67,7 +71,7 @@ class GoogleLoginCard extends StatelessWidget {
                 ],
               ),
             ),
-            // 모서리 네 곳에 검은 원
+            // 모서리 네 곳에 메인컬러 원
             Positioned(
               top: 7, left: 7, child: _cornerDot(),
             ),
@@ -91,7 +95,7 @@ class GoogleLoginCard extends StatelessWidget {
       width: 10,
       height: 10,
       decoration: const BoxDecoration(
-        color: Colors.black,
+        color: AppTheme.mainPrimary, // 메인컬러
         shape: BoxShape.circle,
       ),
     );
