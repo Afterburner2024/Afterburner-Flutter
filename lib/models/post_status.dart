@@ -1,0 +1,1 @@
+enum PostStatus { DEFAULT, DELETED, REPORTED }
